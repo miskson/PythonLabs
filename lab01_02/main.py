@@ -44,3 +44,4 @@ if(checkNum(M) and checkNum(K)):
     print("Running norm distance is going to become more than 50km in", days, " days")
 else:
     print("Values of M and K may contain invalid data. Try again")
+
