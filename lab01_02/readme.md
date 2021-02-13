@@ -17,12 +17,12 @@
 - У результаті успішного завершення програми виводимо відповідь за допомогою **print**
 
 ### Приклад виконання роботи програми
-> Input x value: <br>
-> 25 <br>
-> z = -4.234644261342122<br>
-> Input x value: <br>
-> 9 <br>
-> z = -2.0331136135455754<br>
+> Input x value: 25 <br>
+> z = -4.234644261342122 <br>
+> Input x value: 9 <br>
+> z = -2.0331136135455754 <br>
+>Input x: 0 <br>
+>Value of X contains invalid data. Try again <br>
 
 Для другого завдання використовуємо наступний алгоритм:
 - Виводимо умову задачі.
@@ -39,3 +39,7 @@
 >Input M: 5 <br>
 >Input K: 50 <br>
 >Running norm distance is going to become more than 50km in 7  days <br>
+>Спортсмен пробігає за 1-й день М км, кожний наступний день він збільшує норму пробігу на К%. Визначите через скільки днів норма пробігу може стати більше 50 км. <br>
+>Input M: one <br>
+>Input K: -2 <br>
+>Values of M and K may contain invalid data. Try again <br>
