@@ -1,4 +1,5 @@
 import random
+import re
 
 def todigit(string):
     if string.isdigit():
@@ -69,3 +70,18 @@ else:
             if a2[0][k] % 2 != 0:
                 oddSum = oddSum + a2[0][k]
         print("Sum of odd elements of the firs row is: ", oddSum)
+
+#3.10
+
+def sortByLength(element):
+    return len(element)
+
+theString = input("input the string: ")
+if re.match(r"[\W[({]", theString[0]) is not True and re.match(r"[\w!?,.;:)\]]", theString[len(theString) - 1]):
+    print("success")
+    print(theString)
+    newString = theString.split(" ")
+    newString.sort(key=sortByLength)
+    print(newString)
+else:
+    print("Error, the string may contain forbidden characters in the beginning or end of the string.")
