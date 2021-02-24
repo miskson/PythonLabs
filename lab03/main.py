@@ -1,6 +1,7 @@
 import random
 import re
 
+
 def todigit(string):
     if string.isdigit():
         digit = int(string)
@@ -38,7 +39,6 @@ cols = todigit(input("Input columns quantity: "))
 if type(rows) != int or type(cols) != int:
     print("Invalid input")
 else:
-
     a2 = [[random.randint(-10, 10) for j in range(cols)] for i in range(rows)]
     # 2.b
     b2 = [[random.randint(0, 20) for j in range(cols)] for i in range(rows)]
@@ -71,17 +71,18 @@ else:
                 oddSum = oddSum + a2[0][k]
         print("Sum of odd elements of the firs row is: ", oddSum)
 
-#3.10
+# 3.10
 
-def sortByLength(element):
+
+def sortbylength(element):
     return len(element)
 
+
 theString = input("input the string: ")
-if re.match(r"[\W[({]", theString[0]) is not True and re.match(r"[\w!?,.;:)\]]", theString[len(theString) - 1]):
-    print("success")
-    print(theString)
+if theString != "" and re.match(r"[\W]", theString[0]) is not True and re.match(r"[\w!?,.;:]", theString[len(theString) - 1]):
     newString = theString.split(" ")
-    newString.sort(key=sortByLength)
+    newString.sort(key=sortbylength)
     print(newString)
 else:
-    print("Error, the string may contain forbidden characters in the beginning or end of the string.")
+    print("Error, the string may contain forbidden characters in the beginning or end of the string."
+          " Or there is no string at all.")
