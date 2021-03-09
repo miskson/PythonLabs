@@ -2,17 +2,21 @@ import random
 from collections import namedtuple
 
 
+def showperson(person):
+    print(person.surname, ": salary -", person.salary, ", sex -", person.sex)
+
+
 def showall(persons):
     for person in persons:
-        print(person.surname, ": salary -", person.salary, ", sex -", person.sex)
+        showperson(person)
     print("*****")
 
 
 def showallsorted(base):
-
     base.sort(key=lambda Person: Person.surname)
     print("Sorted list:")
     showall(base)
+
 
 def deletekey(base):
     keyname = input("Input key you want to delete(or input 'q' to exit): ")
@@ -78,26 +82,47 @@ def validateinfo(surname, salary, sex):
         return False
 
 
-def getlowestsalaryMan(base):
-    minsalaryMan = min(base, key=lambda person: person.salary)
-    print("Minimal salary belongs to - ", minsalaryMan.surname, ": salary -", minsalaryMan.salary, ", sex -", minsalaryMan.sex)
+def getmaxsalaryperson(base):
+    maxsalaryperson = max(base, key=lambda person: person.salary)
+    return maxsalaryperson
+
+
+def getminsalaryperson(base):
+    minsalaryperson = min(base, key=lambda person: person.salary)
+    return minsalaryperson
+
+
+def getminimalsalarypeople(base):
+    men = []
+    women = []
+    result = []
+    for person in base:
+        if person.sex == "male":
+            men.append(base[base.index(person)])
+        elif person.sex == "female":
+            women.append(base[base.index(person)])
+    result.append(getminsalaryperson(men))
+    result.append(getminsalaryperson(women))
+    print("Minimal salary staff:")
+    showall(result)
 
 
 Person = namedtuple('Person', ('surname', 'salary', 'sex'))
 surnames = ['Joebob', 'King', 'Bill', 'Mann', 'Ripley', 'Weaver', 'Hicks', 'Nukem', 'Anderson', 'Smith']
 sex = ('male', 'female')
-#base = [Person(random.choice(surnames), round(random.uniform(200, 500)), random.choice(sex)) for _ in range(10)]
 base = [Person(surnames[i], round(random.uniform(200, 500), 2), random.choice(sex)) for i in range(10)]
+
 showall(base)
-# showallsorted(base)
-# deletekey(base)
+showallsorted(base)
+deletekey(base)
+showall(base)
+updatebase(base)
+showall(base)
+getminimalsalarypeople(base)
 # showall(base)
-#updatebase(base)
-#showall(base)
-getlowestsalaryMan(base)
-#showall(base)
-
-
-
-
-
+print("Mimumal salary person:")
+showperson(getminsalaryperson(base))
+print("Maximal salary person:")
+showperson(getmaxsalaryperson(base))
+#print(getminsalaryperson(base))
+#print(getmaxsalaryperson(base))
