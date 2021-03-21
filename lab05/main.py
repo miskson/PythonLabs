@@ -1,4 +1,5 @@
 import re
+from collections import namedtuple
 
 
 def validatestring(string):
@@ -43,4 +44,28 @@ if validatestring(thestring):
 
 else:
     print("String contains forbidden characters or empty")
+
+#2.A
+consonants = re.compile(r"[bcdfghklmnpqrstvwxz]")
+#thetext = ['This','is','the','list','of','some','words','so','what']
+thetext = ['aaa','some','shit','bout','that','aaaa']
+wordinfo = []
+Word = namedtuple('Word', ('theword', 'consonants', 'posindex'))
+consonatscount = 0
+for word in thetext:
+    for i in word:
+        if re.match(consonants, i.lower()):
+            consonatscount += 1
+    wordinfo.append(Word(word, consonatscount, thetext.index(word)))
+    consonatscount = 0
+print(wordinfo)
+wordinfo.sort(key=lambda word: word.consonants, reverse=True)
+print(wordinfo)
+print(thetext)
+#for i in range(2):
+del thetext[wordinfo[0].posindex]
+del thetext[wordinfo[1].posindex]
+del thetext[wordinfo[2].posindex]
+
+print(thetext)
 
