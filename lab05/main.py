@@ -105,6 +105,7 @@ if len(thetext) > 3:
 
     print("neededwords: ", neededwords)
 
+    # filling the list with fitting words
     if len(neededwords) == 3:
         for i in range(3):
             del thetext[neededwords[i].posindex]
