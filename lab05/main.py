@@ -9,6 +9,7 @@ def validatestring(string):
    else:
        return False
 
+
 def validatetextEn(string):
     string = re.findall(r"[\w']+|[.,!?;]", string)
     string = list(filter(isnotsign, string))
@@ -25,7 +26,6 @@ def validatetextEn(string):
     return False
 
 
-
 def isnotsign(string):
     if re.match(r"[\W]", string):
         return False
@@ -38,6 +38,7 @@ def customsplit(string):
     for i in string:
         re.split(r"[^-'\w]", string)
     return string
+
 
 thestring = input("input string: ")
 if validatestring(thestring):
@@ -71,7 +72,8 @@ else:
 #2.A
 consonants = re.compile(r"[bcdfghklmnpqrstvwxz]")
 thetext = input("Input your text: ")
-thetext = re.findall(r"[\w']+|[.,!?;]", thetext)
+print(thetext)
+thetext = re.findall(r"[\w']+|[.,!?; ]", thetext)
 if len(thetext) > 3:
     wordsinfo = []
     Word = namedtuple('Word', ('theword', 'consonants', 'posindex'))
@@ -79,7 +81,7 @@ if len(thetext) > 3:
 
     for word in thetext:
         #checking if the word contains eng letters
-        if re.match(r"[a-zA-Z0-9,-.:;'`\"[\]()!?]", word):
+        if re.match(r"[a-zA-Z0-9,-.:;'`\"[\]()!? ]", word):
             for i in word:
                 #counting consonants in the word
                 if re.match(consonants, i.lower()):
@@ -87,31 +89,36 @@ if len(thetext) > 3:
             #adding current word to the named tuple that contains word information
             wordsinfo.append(Word(word, consonatscount, thetext.index(word)))
             consonatscount = 0
-        #if word contains symbols different from eng -> print error and finish runtime
         else:
+            # if word contains symbols different from eng -> print error and finish runtime
             print("Error, looks like text contains non-english words or characters.")
             sys.exit()
 
-    #print(wordsinfo)
-    wordsinfo.sort(key=lambda word: word.consonants, reverse=True
-                   )
+    wordsinfo.sort(key=lambda word: word.consonants, reverse=True)
+
     neededwords = []
     for i in range(3):
-        neededwords.append(wordsinfo[i])
+        if wordsinfo[i].consonants != 0:
+            neededwords.append(wordsinfo[i])
 
     neededwords.sort(key=lambda word:word.posindex, reverse=True)
 
-    #print(wordsinfo)
     print("neededwords: ", neededwords)
-    #print(thetext)
 
-    for i in range(3):
-        del thetext[neededwords[i].posindex]
+    if len(neededwords) == 3:
+        for i in range(3):
+            del thetext[neededwords[i].posindex]
+    else:
+        print("Looks there is less then 3 words with consonants in them, or no words with consonants at all.")
+        print(''.join(thetext))
+        sys.exit()
 
     print("the text after words being deleted:", thetext)
 
-    # turn list back to string should be done HERE.
+    thetext = ''.join(thetext)
+    print(thetext)
 
-else: print("the string contains forbidden characters or less than 3 words.")
+else:
+    print("the string contains forbidden characters or less than 3 words.")
 
 
