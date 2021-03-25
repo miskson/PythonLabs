@@ -113,8 +113,7 @@ if len(thetext) > 3:
         print(''.join(thetext))
         sys.exit()
 
-    print("the text after words being deleted:", thetext)
-
+    print("the text after words being deleted:")
     thetext = ''.join(thetext)
     print(thetext)
 
