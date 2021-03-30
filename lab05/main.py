@@ -11,7 +11,7 @@ def validatestring(string):
 
 
 def validatetextEn(string):
-    string = re.findall(r"[\w']+|[.,!?;]", string)
+    string = re.findall(r"[\w']+|[.,!?;:]", string)
     string = list(filter(isnotsign, string))
     strlength = len(string)
     counter = 0
@@ -121,4 +121,30 @@ if len(thetext) > 3:
 else:
     print("the string contains forbidden characters or less than 3 words.")
 
+#2.B
+thetext = input("Input new text: ")
+if thetext and validatetextEn(thetext) and validatestring(thetext):
+    thetext = thetext.lower()
+    letterinfo = []
+    onceletters = []
+    multipleletters = []
+    Letter = namedtuple('Letter', ('lettername', 'quantity'))
+    letterinfo.append(Letter(thetext[0], thetext.count(thetext[0])))
+    for letter in thetext:
+        if re.match(r"[A-Za-z]", letter):
+            letterinfo.append(Letter(letter, thetext.count(letter)))
 
+    letterinfo = list(set(letterinfo))
+    print(letterinfo)
+    for i in letterinfo:
+        if i.quantity >= 2:
+            mulletter = i.lettername
+            multipleletters.append(mulletter)
+        elif i.quantity == 1:
+            oneletter = i.lettername
+            onceletters.append(oneletter)
+    multipleletters = list(filter(isnotsign, multipleletters))
+    onceletters = list(filter(isnotsign, onceletters))
+    print("Letters that occure only once in the text: ", onceletters)
+    print("Letters that occure two or more times in the text: ", multipleletters)
+else: print("there is no text or it contains forbidden characters")
