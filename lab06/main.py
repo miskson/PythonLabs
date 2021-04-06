@@ -1,12 +1,11 @@
-import sys
 import random
-import re
-from collections import namedtuple
+
+
 # 1.1
 def quicksort(somelist):
     """
     quick sort of list
-    :param list: list with numeric values
+    :param somelist: list with numeric values
     :return: list: sorted list
     """
     if len(somelist) <= 1:
@@ -23,7 +22,9 @@ def quicksort(somelist):
                 endnumbers.append(i)
             elif i == pivot:
                 middlenumbers.append(i)
+
     return quicksort(startnumbers) + middlenumbers + quicksort(endnumbers)
+
 
 # 1.2
 def findelement(somelist, element):
@@ -44,54 +45,68 @@ def findelement(somelist, element):
         return None
 
 
-def findfirstNmins(randlist, elemcount):
+# 1.3
+def findfirtsmin(somelist, count):
     """
-        Function that fins out first N-min elements of list.
-        :param randlist: randomized list
-        :param elemcount: N-min elements to find
-        :return: list: list of first N-min elements
-        """
-    if len(randlist) <= 1:
-        return randlist
+    Function that finds first n-minimum items in list
+    :param somelist: list
+    :param count: how much elements you want to find
+    :return: list of elements
+    """
+    if len(somelist) <= 1:
+        return somelist
     else:
-        firstNmins = []
-        for i in range(len(randlist) - 1):
-            if randlist[i] >= randlist[i + 1]:
-                firstNmins.append(randlist[i + 1])
-            if len(firstNmins) == elemcount:
-                break
-        return firstNmins
+        sortedlist = quicksort(somelist)
+        firstmins = []
+        for i in range(count):
+            firstmins.append(sortedlist[i])
+        return firstmins
+
 
 # 1.4
-def findfirstNmaxes(randlist, elemcount):
+def findfirstmax(somelist, count):
     """
-    Function that fins out first N-max elements of list.
-    :param randlist: randomized list
-    :param elemcount: N-max elements to find
-    :return: list: list of first N-max elements
+    Function that finds first n-maximum items in list
+    :param somelist: list
+    :param count: how much elements you want to find
+    :return: list of elements
     """
-    if len(randlist) <= 1:
-        return randlist
+    if len(somelist) <= 1:
+        return somelist
     else:
-        firstNmaxes = []
-        for i in range(len(randlist) - 1):
-            if randlist[i] >= randlist[i + 1]:
-                firstNmaxes.append(randlist[i])
-            if len(firstNmaxes) == elemcount:
-                break
-        return firstNmaxes
+        sortedlist = quicksort(somelist)
+        sortedlist.reverse()
+        firstmaxes = []
+        for i in range(count):
+            firstmaxes.append(sortedlist[i])
+        return firstmaxes
 
 
-randlist = random.sample(range(100), 10)
-mylist = [1, 5 ,10.2 ,5, 6 ,'word', 7 ,'7',102 , 24 ,4245, 5]
-print(randlist)
-print(findfirstNmaxes.__doc__)
-print(findfirstNmaxes(randlist, 5))
+# 1.5
+def findaverage(somelist):
+    """
+    Finds average in the list of numbers.
+    :param somelist: list of float or int
+    :return: average number (float)
+    """
+    listlen = len(somelist)
+    number = 0
+    for i in somelist:
+        number = number + i
+
+    return number / listlen
+
+
+randlist = random.sample(range(100), 9)
+mylist = [1, 5, 10.2, 5, 6, 'word', 7, '7', 102,  24, 4245, 5]
 print(randlist)
 print(quicksort.__doc__)
-print(quicksort(randlist))
-#value = int(input("input searched value: "))
+print("list after being quicksorted: ", quicksort(randlist))
 print(findelement.__doc__)
-print(findelement(mylist, 'word'))
-print(findfirstNmins.__doc__)
-print(findfirstNmins(randlist,5))
+print("index of found element: ", findelement(mylist, 'word'))
+print(findfirtsmin.__doc__)
+print("first minimum values: ", findfirtsmin(randlist, 4))
+print(findfirstmax.__doc__)
+print("first maximum values: ", findfirstmax(randlist, 3))
+print(findaverage.__doc__)
+print("list average: ", findaverage(randlist))
