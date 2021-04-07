@@ -5,8 +5,10 @@ import random
 def quicksort(somelist):
     """
     Function to quick sort the list
-    :param somelist:(list) list with numeric values
-    :return: (list) sorted list
+    parameters:
+        somelist(list): list with numeric values
+    returns:
+        (list) sorted list
     """
     if len(somelist) <= 1:
         return somelist
@@ -30,9 +32,11 @@ def quicksort(somelist):
 def findelement(somelist, element):
     """
     Function that finds wished element in the list
-    :param somelist: (list) list of elements
-    :param element: element that needs to be found
-    :return: (int) index of found element or None
+    parameters:
+        somelist(list): list of elements
+        element: element that needs to be found
+    returns:
+        (int) index of found element or None
     """
     if len(somelist) >= 1:
         listindex = 0
@@ -49,9 +53,11 @@ def findelement(somelist, element):
 def findfirtsmin(somelist, count):
     """
     Function that finds first n-minimum items in list
-    :param somelist: (list) to operate on
-    :param count:(int) how much elements you want to find
-    :return: (list) list of elements
+    parameters:
+        somelist(list): list to operate on
+        count(int): how much elements you want to find
+    returns:
+        (list) list of elements
     """
     if len(somelist) <= 1:
         return somelist
@@ -67,9 +73,11 @@ def findfirtsmin(somelist, count):
 def findfirstmax(somelist, count):
     """
     Function that finds first n-maximum items in list
-    :param somelist: (list) list to operate on
-    :param count: (int) how much elements you want to find
-    :return: (list) list of elements
+    parameters:
+        somelist(list): list to operate on
+        count(int): how much elements you want to find
+    returns:
+        (list) list of elements
     """
     if len(somelist) <= 1:
         return somelist
@@ -86,8 +94,10 @@ def findfirstmax(somelist, count):
 def findaverage(somelist):
     """
     Finds average in the list of numbers.
-    :param somelist: (list) list to operate on
-    :return: (float) average number
+    parameters:
+        somelist(list): list to operate on
+    returns:
+        average(float): average number
     """
     listlen = len(somelist)
     number = 0
@@ -101,8 +111,10 @@ def findaverage(somelist):
 def cleanedlist(somelist):
     """
     Function returns sorted list without any similar elements
-    :param somelist: (list) list to clean from similar items
-    :return: newcleanedlist: (list) cleaned list
+    parameters:
+        somelist(list): list to clean from similar items
+    returns:
+        newcleanedlist(list): cleaned list
     """
     if len(somelist) <= 1:
         return somelist
@@ -119,10 +131,12 @@ def yearlyincome(amount, percentage=5, years=1):
     """
     Function that determines the amount of profit when depositing a given amount of money in the bank
     under the established percentage of annual for years
-    :param amount: (float) amount of money to deposit
-    :param years: (int) amount of years
-    :param percentage: (float) percentage of annual
-    :return: (float) amount of profit after years
+    parameters:
+        amount(float): amount of money to deposit
+        years(int): amount of years
+        percentage(float): percentage of annual
+    returns:
+        amount(float): amount of profit after years
     """
     for i in range(years):
         amount = amount + ((amount * percentage) / 100)
@@ -144,6 +158,7 @@ print(findfirstmax.__doc__)
 print("first maximum values: ", findfirstmax(randlist, 3))
 print(findaverage.__doc__)
 print("list average: ", findaverage(randlist))
+print(cleanedlist.__doc__)
 print("cleanedlist :", cleanedlist(toclean))
 print(yearlyincome.__doc__)
 print("my sum: ", yearlyincome(300))
