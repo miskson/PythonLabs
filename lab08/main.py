@@ -55,8 +55,8 @@ for line in lineslist:
         iteration -= 1
         break
 
-print("linelist:", lineslist)
-print(iteration)
+#print("linelist:", lineslist)
+#print(iteration)
 
 if neededline is not None:
     f4 = open('myfile2.txt', 'w')
