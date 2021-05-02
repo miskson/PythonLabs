@@ -27,7 +27,9 @@ def time_decoretor(func):
             :return: inner function
         """
         starttime = time.monotonic()
+
         func(n)
+
         endtime = time.monotonic()
         print("calculation time: ", datetime.timedelta(seconds=endtime - starttime))
 
