@@ -70,5 +70,3 @@ if neededline is not None:
             if i == iteration:
                 f5.write(neededline)
             f5.write(lineslist[i])
-
-#all commented functions serve as a helpers
