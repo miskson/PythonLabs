@@ -20,6 +20,7 @@ def lineelementswap(somelist):
 
     return somelist
 
+
 def reversestring(string):
     str = ""
     for i in string:
@@ -27,7 +28,8 @@ def reversestring(string):
 
     return str
 
-#8.10.1
+
+# 8.10.1
 with open('myfile.txt') as f, open('myfileRewritten.txt', 'w') as f2:
     for line in f:
         splitted = line.split()
@@ -37,26 +39,21 @@ with open('myfile.txt') as f, open('myfileRewritten.txt', 'w') as f2:
         f2.write(towrite)
 
 
+# 8.10.2
 neededline = None
 with open('myfile2.txt', 'r') as f3:
     lineslist = f3.readlines()
 
-#8.10.2
 iteration = 0
 for line in lineslist:
     iteration += 1
-    if line[len(line) - 2] == "!":
+    if line[len(line) - 2] == "?":
         neededline = lineslist.pop(lineslist.index(line))
-        #print(neededline)
         neededline = neededline.split()
         neededline = " ".join(neededline)
         neededline = reversestring(neededline) + "\n"
-        #print(neededline)
         iteration -= 1
         break
-
-#print("linelist:", lineslist)
-#print(iteration)
 
 if neededline is not None:
     f4 = open('myfile2.txt', 'w')
@@ -69,4 +66,5 @@ if neededline is not None:
         for i in range(len(lineslist)):
             if i == iteration:
                 f5.write(neededline)
+
             f5.write(lineslist[i])
