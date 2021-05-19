@@ -1,0 +1,1 @@
+Sergei is The object of class Person stored ad 0x23243022b20
