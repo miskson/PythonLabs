@@ -1,1 +1,8 @@
-Sergei is The object of class Person stored ad 0x23243022b20
+class Person:
+   name: Sergei
+   age: 20
+   employment: ('Soldier', 'army service')
+   wage: 0
+   workdays: 0
+   workhours: 0
+   income: My monthly income is: 0. My year income is: 0

@@ -66,22 +66,21 @@ class Person:
         return f"{self.name} is The object of class {self.__class__.__name__} stored ad {hex(id(self))}"
 
     # for humans
-    # def __str__(self):
-    #     return f"class {self.__class__.__name__}:\n" \
-    #            f"   name: {self.name}\n" \
-    #            f"   age: {self.age}\n" \
-    #            f"   employmentstatus: {self.employmentstatus}\n" \
-    #            f"   responsabilities: {self.responsabilities}\n" \
-    #            f"   wage: {self.wage}\n" \
-    #            f"   workdays: {self.workdays}\n" \
-    #            f"   workhours: {self.workhours}\n" \
-    #            f"   income: {self.income}\n"
+    def __str__(self):
+        return f"class {self.__class__.__name__}:\n" \
+               f"   name: {self.name}\n" \
+               f"   age: {self.age}\n" \
+               f"   employment: {self.employment.profession.value}\n" \
+               f"   wage: {self.wage}\n" \
+               f"   workdays: {self.workdays}\n" \
+               f"   workhours: {self.workhours}\n" \
+               f"   income: {self.income}\n"
 
     # methods
     def greet(self):
         print("Hello, my name is ", self.name, " I'm ", self.age, "years old.")
-        if isinstance(self.employment, object):
-            print(f"I am {self.employment} .My working responsibilities are: НЕВАЖНО")
+        if isinstance(self.employment, object) is True: #this if isn't working - to FIX
+            print(f"I am {self.employment.profession.value[0]} .My working responsibilities are: {self.employment.profession.value[1]}")
         else:
             print("I'm currently unemployed.")
 
@@ -95,9 +94,9 @@ class Person:
 
 # ------------------------------------------------------------------------------------------------
 work1 = Work()
-print(work1.profession.value[1])
-person1 = Person("Sergei", 20, work1)
+#word = 'word'
 
+person1 = Person("Sergei", 20, work1)
 person1.greet()
-print(person1.income)
+
 generateobjectfile(person1)
