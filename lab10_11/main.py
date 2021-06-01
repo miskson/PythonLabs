@@ -13,6 +13,10 @@ def objectcheck(func):
 
     return inner
 
+def checkSalaryInfo(wage, workdays, workhours):
+    if workhours > 0 and workdays > 0 and wage > 0:
+        return True
+    else: return False
 
 @objectcheck
 def generateobjectfile(obj):
@@ -50,16 +54,24 @@ class Person:
     workdays = int
     workhours = int
     monthincome = float
+    income = str
 
     # constructor
     def __init__(self, name, age, employment=None, wage=0, workdays=0, workhours=0):
         self.name = name
         self.age = age
         self.wage = wage
-        self.employment = employment
-        self.workdays = workdays
-        self.workhours = workhours
-        self.income = f"My monthly income is: {self.monthlyincome()}. My year income is: {self.yearlyincome()}"
+        if hasattr(employment, 'profession'):
+            self.employment = employment
+        else:
+            self.employment = None
+
+        if checkSalaryInfo(wage, workdays, workhours):
+            self.workdays = workdays
+            self.workhours = workhours
+            self.income = f"My monthly income is: {self.monthlyincome()}. My year income is: {self.yearlyincome()}"
+        else:
+            self.workdays = self.wage = self.workhours = self.income = 'not stated'
 
     # for computer representation
     def __repr__(self):
@@ -79,24 +91,41 @@ class Person:
     # methods
     def greet(self):
         print("Hello, my name is ", self.name, " I'm ", self.age, "years old.")
-        if isinstance(self.employment, object) is True: #this if isn't working - to FIX
+
+        if self.employment is not None:
             print(f"I am {self.employment.profession.value[0]} .My working responsibilities are: {self.employment.profession.value[1]}")
         else:
             print("I'm currently unemployed.")
 
+
     def monthlyincome(self):
-        monthincome = ((self.wage * self.workhours) * self.workdays) * 3
-        return monthincome
+        if self.wage != 'not stated' or self.workdays != 'not stated' or self.workhours != 'not stated':
+            monthincome = ((self.wage * self.workhours) * self.workdays) * 3
+            return monthincome
+        else:
+            return 'not stated'
+
 
     def yearlyincome(self):
-        yearincome = self.monthlyincome() * 12
-        return yearincome
+        if self.wage != 'not stated' or self.workdays != 'not stated' or self.workhours != 'not stated':
+            yearincome = self.monthlyincome() * 12
+            return yearincome
+        else:
+            return 'not stated'
 
 # ------------------------------------------------------------------------------------------------
 work1 = Work()
-#word = 'word'
+word = 'word'
+work2 = Work()
 
-person1 = Person("Sergei", 20, work1)
+person1 = Person("Sergei", 20, work1, 24, 10, 30)
 person1.greet()
+print(person1.income)
+print(person1.monthlyincome())
+print(person1.yearlyincome())
+person2 = Person("David", 21, work2)
 
 generateobjectfile(person1)
+generateobjectfile(person2)
+
+
