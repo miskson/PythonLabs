@@ -1,5 +1,7 @@
 from enum import Enum
 from random import choice
+from abc import ABC, abstractmethod
+
 
 def objectcheck(func):
     def inner(obj):
@@ -13,16 +15,79 @@ def objectcheck(func):
 
     return inner
 
-def checkSalaryInfo(wage, workdays, workhours):
-    if workhours > 0 and workdays > 0 and wage > 0:
-        return True
-    else: return False
 
 @objectcheck
 def generateobjectfile(obj):
     with open(f"{obj.__class__.__name__}__{obj.name}.txt", "w") as f:
         strings = str(obj)
         f.write(strings)
+
+
+class HumanExeption(Exception):
+    pass
+
+
+class WorkExeption(HumanExeption):
+    pass
+
+
+# abstract class
+class Human(ABC):
+    def greet(self):
+        pass
+
+    def walk(self):
+        pass
+
+    @staticmethod
+    def breathe():
+        print("*inhale*...*exhale*...")
+
+
+class StudiesAndDescr(Enum):
+    stud1 = ('KhPI', 'Computer engeneering')
+    stud2 = ('Economic University', 'Economics')
+    stud3 = ('Cadet Academy', 'Cadet study')
+    stud4 = ('MIT', 'Nuclear Physics')
+    stud5 = ('Cambridge', 'Lawyer')
+
+
+class Study:
+    info = tuple
+
+    def __init__(self):
+        self.info = choice(list(StudiesAndDescr))
+
+
+class Student(Human):
+    name = str
+    age = str
+    study = Study
+
+    def __init__(self, name, age, study):
+        self.name = name
+        self.age = age
+        self.study = study
+
+    def __repr__(self):
+        return f"{self.name} is The object of class {self.__class__.__name__} stored ad {hex(id(self))}"
+
+    def __str__(self):
+        return f"class {self.__class__.__name__}:\n" \
+                f"   name: {self.name}\n" \
+                f"   age: {self.age}\n" \
+                f"   employment: {self.study.info.value}\n" \
+
+
+    def greet(self):
+        print(f"Hello my name is {self.name} I am {self.age} years old")
+        print(f"I am student of {self.study.info.value[0]} .My study program is: {self.study.info.value[1]}")
+
+    def walk(self):
+        if self.age <= 30:
+            print("It's not difficult for me to walk 10000+ steps during the day")
+        else:
+            print("My walking norm is 10000 steps a day")
 
 
 class RolesAndRespons(Enum):
@@ -45,39 +110,46 @@ class Work:
         self.profession = choice(list(RolesAndRespons))
 
 
-class Person:
-    # fields
+def checksalaryinfo(wage, workdays, workhours):
+    if workhours > 0 and workdays > 0 and wage > 0:
+        return True
+    else: return False
+
+
+class Worker(Human):
     name = str
     age = int
     employment = Work
     wage = float
     workdays = int
     workhours = int
-    monthincome = float
     income = str
 
     # constructor
-    def __init__(self, name, age, employment=None, wage=0, workdays=0, workhours=0):
+    def __init__(self, name, age, employment, wage=0, workdays=0, workhours=0):
         self.name = name
         self.age = age
         self.wage = wage
-        if hasattr(employment, 'profession'):
-            self.employment = employment
-        else:
-            self.employment = None
+        self.employment = employment
 
-        if checkSalaryInfo(wage, workdays, workhours):
-            self.workdays = workdays
-            self.workhours = workhours
-            self.income = f"My monthly income is: {self.monthlyincome()}. My year income is: {self.yearlyincome()}"
+        if checksalaryinfo(wage, workdays, workhours):
+            if workdays > 7:
+                raise WorkExeption("There are only 7days in a week!")
+            else:
+                self.workdays = workdays
+
+            if workhours > 12:
+                raise WorkExeption("Cannot work more than 12 hours!")
+            else:
+                self.workhours = workhours
+                self.income = f"My monthly income is: {self.monthlyincome()}. My year income is: {self.yearlyincome()}"
+
         else:
             self.workdays = self.wage = self.workhours = self.income = 'not stated'
 
-    # for computer representation
     def __repr__(self):
         return f"{self.name} is The object of class {self.__class__.__name__} stored ad {hex(id(self))}"
 
-    # for humans
     def __str__(self):
         return f"class {self.__class__.__name__}:\n" \
                f"   name: {self.name}\n" \
@@ -88,14 +160,15 @@ class Person:
                f"   workhours: {self.workhours}\n" \
                f"   income: {self.income}\n"
 
-    # methods
     def greet(self):
         print("Hello, my name is ", self.name, " I'm ", self.age, "years old.")
+        print(f"I am {self.employment.profession.value[0]} .My working responsibilities are: {self.employment.profession.value[1]}")
 
-        if self.employment is not None:
-            print(f"I am {self.employment.profession.value[0]} .My working responsibilities are: {self.employment.profession.value[1]}")
+    def walk(self):
+        if self.workhours >= 12:
+            print("I'm walking more than 10000 steps a day")
         else:
-            print("I'm currently unemployed.")
+            print("My walking norm is 10000 steps a day")
 
 
     def monthlyincome(self):
@@ -104,7 +177,6 @@ class Person:
             return monthincome
         else:
             return 'not stated'
-
 
     def yearlyincome(self):
         if self.wage != 'not stated' or self.workdays != 'not stated' or self.workhours != 'not stated':
@@ -115,17 +187,15 @@ class Person:
 
 # ------------------------------------------------------------------------------------------------
 work1 = Work()
-word = 'word'
 work2 = Work()
 
-person1 = Person("Sergei", 20, work1, 24, 10, 30)
+study1 = Study()
+student1 = Student('Sergo', 31, study1)
+student1.greet()
+student1.breathe()
+student1.walk()
+
+person1 = Worker("Sergei", 20, work1, 24, 5, 10)
 person1.greet()
-print(person1.income)
-print(person1.monthlyincome())
-print(person1.yearlyincome())
-person2 = Person("David", 21, work2)
-
-generateobjectfile(person1)
-generateobjectfile(person2)
-
-
+person1.walk()
+person1.breathe()
