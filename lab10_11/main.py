@@ -170,7 +170,6 @@ class Worker(Human):
         else:
             print("My walking norm is 10000 steps a day")
 
-
     def monthlyincome(self):
         if self.wage != 'not stated' or self.workdays != 'not stated' or self.workhours != 'not stated':
             monthincome = ((self.wage * self.workhours) * self.workdays) * 3
@@ -184,6 +183,7 @@ class Worker(Human):
             return yearincome
         else:
             return 'not stated'
+
 
 # ------------------------------------------------------------------------------------------------
 work1 = Work()
