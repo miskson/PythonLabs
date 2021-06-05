@@ -1,5 +1,6 @@
 import config
 import telebot
+import os
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -90,7 +91,6 @@ def add_address(message):
         if message.location:
             print(message.location)
             restaurantsList[message.from_user.id][-1].address = message.location
-            print(restaurantsList)
             bot.send_message(message.chat.id, "Now send me photo of the place.")
             bot.register_next_step_handler(message, add_photo)
         else:
@@ -114,10 +114,20 @@ def add_photo(message):
 
     try:
         if message.photo:
-            restaurantsList[message.from_user.id][-1].photo = message.photo
+            photo_path = (bot.get_file(message.photo[-1].file_id)).file_path
+            downloaded = bot.download_file(photo_path)
+
+            if os.path.exists(str(message.chat.id) + '/') is False:
+                os.mkdir(str(message.from_user.id) + '/')
+
+            new_path = str(message.chat.id) + '/' + photo_path.split('/')[-1]
+
+            with open(new_path, 'wb') as file:
+                file.write(downloaded)
+
+            restaurantsList[message.from_user.id][-1].photo = new_path
             bot.send_message(message.chat.id, f'Restaurant "{restaurantsList[message.from_user.id][-1].name}" '
                                               f'has been successfully added to the list!')
-            print(restaurantsList)
 
         else:
             raise Exception()
@@ -131,14 +141,28 @@ def show_all(message):
     try:
         if restaurantsList[message.from_user.id]:
             for i in restaurantsList[message.from_user.id]:
-                bot.send_message(message.chat.id, i.name)
-                bot.send_message(message.chat.id, i.address)
-                bot.send_message(message.chat.id, i.photo)
+                bot.send_message(message.chat.id, f"Restaurant name: {i.name}")
+                bot.send_location(message.chat.id, i.address.latitude, i.address.longitude)
+                bot.send_photo(message.chat.id, photo=open(i.photo, 'rb'))
         else:
             bot.send_message(message.chat.id, "Looks like there is nothing to display.")
 
     except Exception as e:
         bot.send_message(message.chat.id, "Something went wrong. Input '/start' command and try again")
+
+# THIS ISN'T WORKING - TO FIX!
+@bot.message_handler(commands=['reset'])
+def reset_list(message):
+    try:
+        for i in restaurantsList[message.from_user.id]:
+            os.remove(i.photo)
+
+        os.rmdir(str(message.from_user.id))
+        restaurantsList[message.from_user.id].clear()
+        bot.send_message(message, 'List of restaurants has been reset.')
+
+    except Exception as e:
+        bot.send_message(message, 'an error occured')
 
 
 if __name__ == '__main__':
