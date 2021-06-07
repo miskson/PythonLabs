@@ -8,9 +8,6 @@ bot = telebot.TeleBot(config.TOKEN)
 API_KEY = config.API_KEY
 db = redis.Redis()
 
-#r = redis.StrictRedis()
-#print(f"Is redis running: {r.ping()}")
-
 class Restaurant:
     name = str
     address = dict
@@ -139,7 +136,6 @@ def add_photo(message):
                      restaurantsList[message.from_user.id][-1].address.longitude,
                      restaurantsList[message.from_user.id][-1].photo)
 
-            read_from_db()
 
         else:
             raise Exception()
@@ -202,6 +198,7 @@ def reset_list(message):
 
             restaurantsList[message.from_user.id].clear()
             db.delete(message.from_user.id)
+            os.rmdir(str(message.chat.id))
             bot.send_message(message.chat.id, 'List of restaurants has been reset.')
         else:
             bot.send_message(message.chat.id, 'Looks like there is nothing to delete.')
@@ -236,6 +233,7 @@ def show_nearby(message):
                                         + str(message.location.latitude) + "," + str(message.location.longitude) +
                                         "&radius=500&types=restaurant&key=" + API_KEY).json()
 
+            print(requset_json)
             nearby_places = requset_json['results']
 
             for i in nearby_places:
@@ -247,36 +245,7 @@ def show_nearby(message):
         bot.register_next_step_handler(message, show_nearby)
 
 
-def read_from_db():
-    for i in db.keys():
-        start = 0
-        end = 3
-
-        key_id = int(i.decode('utf-8'))
-        print(key_id)
-        item = db.lrange(key_id, start, end)
-        print(item)
-        restaurantsList[key_id] = []
-        #print(restaurantsList)
-
-        while item:
-            start += 4
-            end += 4
-
-            name = item[0].decode('utf-8')
-            address = telebot.types.Location(float(item[2].decode('utf-8')), float(item[1].decode('utf-8')))
-            photo = item[3].decode('utf-8')
-
-
-            restaurantsList[key_id].append(Restaurant(name, address, photo))
-
-            item = db.lrange(key_id, start, end)
-            print(item)
-
-
 if __name__ == '__main__':
     restaurantsList = {}
-    read_from_db()
-
 
 bot.polling(none_stop=True)
